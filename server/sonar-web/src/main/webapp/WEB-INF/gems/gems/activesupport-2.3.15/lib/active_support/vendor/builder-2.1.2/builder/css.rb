@@ -1,18 +1,23 @@
 #!/usr/bin/env ruby
-#--
-# Copyright 2004, 2005 by Jim Weirich  (jim@weirichhouse.org).
-# Copyright       2005 by Scott Barron (scott@elitists.net).
-# All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as the
-# above copyright notice is included.
+# SonarQube
+# Copyright (C) 2009-2016 SonarSource SA
+# mailto:contact AT sonarsource DOT com
 #
-# Much of this is taken from Jim's work in xmlbase.rb and xmlmarkup.rb.
-# Documentation has also been copied and pasted and modified to reflect
-# that we're building CSS here instead of XML.  Jim is conducting the
-# orchestra here and I'm just off in the corner playing a flute.
-#++
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 3 of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 
 # Provide a flexible and easy to use Builder for creating Cascading
 # Style Sheets (CSS).

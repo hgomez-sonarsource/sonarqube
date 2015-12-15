@@ -1,11 +1,23 @@
 #!/usr/local/bin/ruby -w
-
-# = faster_csv.rb -- Faster CSV Reading and Writing
 #
-#  Created by James Edward Gray II on 2005-10-31.
-#  Copyright 2005 Gray Productions. All rights reserved.
-# 
-# See FasterCSV for documentation.
+# SonarQube
+# Copyright (C) 2009-2016 SonarSource SA
+# mailto:contact AT sonarsource DOT com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 3 of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 
 require "forwardable"
 require "English"

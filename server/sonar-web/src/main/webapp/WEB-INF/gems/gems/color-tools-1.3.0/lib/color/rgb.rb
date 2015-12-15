@@ -1,13 +1,22 @@
-#--
-# Colour management with Ruby.
 #
-# Copyright 2005 Austin Ziegler
-#   http://rubyforge.org/ruby-pdf/
+# SonarQube
+# Copyright (C) 2009-2016 SonarSource SA
+# mailto:contact AT sonarsource DOT com
 #
-#   Licensed under a MIT-style licence.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 3 of the License, or (at your option) any later version.
 #
-# $Id: rgb.rb,v 1.6 2005/08/08 02:44:17 austin Exp $
-#++
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 
   # An RGB colour object.
 class Color::RGB
@@ -118,9 +127,9 @@ class Color::RGB
     # multi-step:
     #
     # 1. Convert the R, G, and B components to C, M, and Y components.
-    #     c = 1.0 – r
-    #     m = 1.0 – g
-    #     y = 1.0 – b
+    #     c = 1.0 ï¿½ r
+    #     m = 1.0 ï¿½ g
+    #     y = 1.0 ï¿½ b
     # 2. Compute the minimum amount of black (K) required to smooth the
     #    colour in inks.
     #     k = min(c, m, y)
@@ -128,9 +137,9 @@ class Color::RGB
     #    colours because less of each colour is needed for each bit of
     #    black. Also, regenerate the black (K) based on the undercolour
     #    removal so that the colour is more accurately represented in ink.
-    #     c = min(1.0, max(0.0, c – UCR(k)))
-    #     m = min(1.0, max(0.0, m – UCR(k)))
-    #     y = min(1.0, max(0.0, y – UCR(k)))
+    #     c = min(1.0, max(0.0, c ï¿½ UCR(k)))
+    #     m = min(1.0, max(0.0, m ï¿½ UCR(k)))
+    #     y = min(1.0, max(0.0, y ï¿½ UCR(k)))
     #     k = min(1.0, max(0.0, BG(k)))
     #
     # The undercolour removal function and the black generation functions

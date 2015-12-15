@@ -1,13 +1,22 @@
-#--
-# Colour management with Ruby.
 #
-# Copyright 2005 Austin Ziegler
-#   http://rubyforge.org/ruby-pdf/
+# SonarQube
+# Copyright (C) 2009-2016 SonarSource SA
+# mailto:contact AT sonarsource DOT com
 #
-#   Licensed under a MIT-style licence.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 3 of the License, or (at your option) any later version.
 #
-# $Id: hsl.rb,v 1.2 2005/08/08 02:44:17 austin Exp $
-#++
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 
   # An HSL colour object. Internally, the hue (#h), saturation (#s), and
   # luminosity (#l) values are dealt with as fractional values in the range
@@ -40,7 +49,7 @@ class Color::HSL
   end
 
     # Creates an HSL colour object from the standard values of degrees and
-    # percentages (e.g., 145º, 30%, 50%).
+    # percentages (e.g., 145ï¿½, 30%, 50%).
   def initialize(h = 0, s = 0, l = 0)
     @h = h / 360.0
     @s = s / 100.0
