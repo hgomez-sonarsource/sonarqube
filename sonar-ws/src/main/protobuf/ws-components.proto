@@ -28,13 +28,24 @@ option optimize_for = SPEED;
 
 // WS api/components/search
 message SearchWsResponse {
-  message Component {
-    optional string id = 1;
-    optional string key = 2;
-    optional string qualifier = 3;
-    optional string name = 4;
-  }
-
   optional sonarqube.ws.commons.Paging paging = 1;
   repeated Component components = 2;
+}
+
+// WS api/components/tree
+message TreeWsResponse {
+  optional sonarqube.ws.commons.Paging paging = 1;
+  repeated Component components = 2;
+}
+
+message Component {
+  optional string id = 1;
+  optional string key = 2;
+  optional string projectId = 3;
+  optional string name = 4;
+  optional string description = 5;
+  optional string qualifier = 6;
+  optional string path = 7;
+  // ex: 2015-08-25T16:18:48+0200
+  optional string createdAt = 8;
 }

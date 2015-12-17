@@ -18,12 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package org.sonar.server.component.ws;
+package org.sonar.db.component;
 
-class WsComponentsParameters {
-  private WsComponentsParameters() {
-    // static utility class
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.sonar.api.resources.Qualifiers;
+
+import static java.util.Collections.singleton;
+
+public class ComponentTreeQueryTest {
+
+  @Rule
+  public ExpectedException expectedException = ExpectedException.none();
+
+  @Test
+  public void fail_if_no_base_snapshot() {
+    expectedException.expect(NullPointerException.class);
+
+    ComponentTreeQuery.builder()
+      .setQualifiers(singleton(Qualifiers.FILE))
+      .build();
   }
-
-  static final String PARAM_QUALIFIERS = "qualifiers";
 }

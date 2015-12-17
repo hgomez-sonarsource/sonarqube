@@ -18,21 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package org.sonar.server.component.ws;
+package org.sonarqube.ws.client.component;
 
-import org.sonar.core.platform.Module;
-
-public class ComponentsWsModule extends Module {
-  @Override
-  protected void configureModule() {
-    add(
-      ResourcesWs.class,
-      ComponentsWs.class,
-      EventsWs.class,
-      // actions
-      AppAction.class,
-      SearchAction.class,
-      TreeAction.class,
-      SearchViewComponentsAction.class);
+public class ComponentsWsParameters {
+  private ComponentsWsParameters() {
+    // static utility class
   }
+
+  //actions
+  public static final String ACTION_TREE = "tree";
+
+  // parameters
+  public static final String PARAM_QUALIFIERS = "qualifiers";
+  public static final String PARAM_BASE_COMPONENT_ID = "baseComponentId";
+  public static final String PARAM_BASE_COMPONENT_KEY = "baseComponentKey";
+  public static final String PARAM_STRATEGY = "strategy";
 }

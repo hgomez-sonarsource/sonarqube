@@ -1,0 +1,99 @@
+{
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 100,
+    "total": 10
+  },
+  "components": [
+    {
+      "id": "file-id-1",
+      "key": "file-key-1",
+      "projectId": "project-id",
+      "name": "file-name-1",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-1",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    },
+    {
+      "id": "file-id-10",
+      "key": "file-key-10",
+      "projectId": "project-id",
+      "name": "file-name-10",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-10",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    },
+    {
+      "id": "file-id-2",
+      "key": "file-key-2",
+      "projectId": "project-id",
+      "name": "file-name-2",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-2",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    },
+    {
+      "id": "file-id-3",
+      "key": "file-key-3",
+      "projectId": "project-id",
+      "name": "file-name-3",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-3",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    },
+    {
+      "id": "file-id-4",
+      "key": "file-key-4",
+      "projectId": "project-id",
+      "name": "file-name-4",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-4",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    },
+    {
+      "id": "file-id-5",
+      "key": "file-key-5",
+      "projectId": "project-id",
+      "name": "file-name-5",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-5",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    },
+    {
+      "id": "file-id-6",
+      "key": "file-key-6",
+      "projectId": "project-id",
+      "name": "file-name-6",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-6",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    },
+    {
+      "id": "file-id-7",
+      "key": "file-key-7",
+      "projectId": "project-id",
+      "name": "file-name-7",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-7",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    },
+    {
+      "id": "file-id-8",
+      "key": "file-key-8",
+      "projectId": "project-id",
+      "name": "file-name-8",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-8",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    },
+    {
+      "id": "file-id-9",
+      "key": "file-key-9",
+      "projectId": "project-id",
+      "name": "file-name-9",
+      "qualifier": "FIL",
+      "path": "path/to/file-name-9",
+      "createdAt": "2015-12-17T22:07:14+0100"
+    }
+  ]
+}
