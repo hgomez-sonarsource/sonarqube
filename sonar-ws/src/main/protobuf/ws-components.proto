@@ -35,7 +35,8 @@ message SearchWsResponse {
 // WS api/components/tree
 message TreeWsResponse {
   optional sonarqube.ws.commons.Paging paging = 1;
-  repeated Component components = 2;
+  optional string projectId = 2;
+  repeated Component components = 3;
 }
 
 message Component {

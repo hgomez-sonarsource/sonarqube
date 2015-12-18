@@ -176,6 +176,9 @@ public class TreeAction implements ComponentsWsAction {
       .setTotal(paging.total())
       .build();
 
+    if (!components.isEmpty()) {
+      response.setProjectId(components.get(0).projectUuid());
+    }
     for (ComponentDto dto : components) {
       response.addComponents(componentDtoToWsComponent(dto));
     }
@@ -191,9 +194,6 @@ public class TreeAction implements ComponentsWsAction {
       .setQualifier(dto.qualifier());
     if (dto.path() != null) {
       wsComponent.setPath(dto.path());
-    }
-    if (dto.projectUuid() != null) {
-      wsComponent.setProjectId(dto.projectUuid());
     }
     if (dto.description() != null) {
       wsComponent.setDescription(dto.description());
