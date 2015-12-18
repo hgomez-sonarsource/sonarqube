@@ -20,6 +20,7 @@
 
 package org.sonar.server.ws;
 
+import java.util.Collections;
 import java.util.Set;
 import org.sonar.api.i18n.I18n;
 import org.sonar.api.resources.ResourceTypes;
@@ -30,13 +31,27 @@ import static com.google.common.collect.FluentIterable.from;
 import static com.google.common.collect.Ordering.natural;
 import static java.lang.String.format;
 import static org.sonar.server.component.ResourceTypeFunctions.RESOURCE_TYPE_TO_QUALIFIER;
-import static org.sonarqube.ws.client.permission.PermissionsWsParameters.PARAM_QUALIFIER;
 
 public class WsParameterBuilder {
+  private static final String PARAM_QUALIFIER = "qualifier";
+  private static final String PARAM_QUALIFIERS = "qualifiers";
+
+  private WsParameterBuilder() {
+    // static methods only
+  }
+
   public static WebService.NewParam createRootQualifierParameter(WebService.NewAction action, QualifierParameterContext context) {
     return action.createParam(PARAM_QUALIFIER)
       .setDescription("Project qualifier. Filter the results with the specified qualifier. Possible values are:" + buildRootQualifiersDescription(context))
       .setPossibleValues(getRootQualifiers(context.getResourceTypes()));
+  }
+
+  public static WebService.NewParam createQualifiersParameter(WebService.NewAction action, QualifierParameterContext context) {
+    action.addFieldsParam(Collections.emptyList());
+    return action.createParam(PARAM_QUALIFIERS)
+      .setDescription(
+        "Comma-separated list of component qualifiers. Filter the results with the specified qualifiers. Possible values are:" + buildAllQualifiersDescription(context))
+      .setPossibleValues(getAllQualifiers(context.getResourceTypes()));
   }
 
   private static Set<String> getRootQualifiers(ResourceTypes resourceTypes) {
@@ -45,11 +60,25 @@ public class WsParameterBuilder {
       .toSortedSet(natural());
   }
 
+  private static Set<String> getAllQualifiers(ResourceTypes resourceTypes) {
+    return from(resourceTypes.getAll())
+      .transform(RESOURCE_TYPE_TO_QUALIFIER)
+      .toSortedSet(natural());
+  }
+
   private static String buildRootQualifiersDescription(QualifierParameterContext context) {
+    return buildQualifiersDescription(context, getRootQualifiers(context.getResourceTypes()));
+  }
+
+  private static String buildAllQualifiersDescription(QualifierParameterContext context) {
+    return buildQualifiersDescription(context, getAllQualifiers(context.getResourceTypes()));
+  }
+
+  private static String buildQualifiersDescription(QualifierParameterContext context, Set<String> qualifiers) {
     StringBuilder description = new StringBuilder();
     description.append("<ul>");
     String qualifierPattern = "<li>%s - %s</li>";
-    for (String qualifier : getRootQualifiers(context.getResourceTypes())) {
+    for (String qualifier : qualifiers) {
       description.append(format(qualifierPattern, qualifier, qualifierLabel(context, qualifier)));
     }
     description.append("</ul>");

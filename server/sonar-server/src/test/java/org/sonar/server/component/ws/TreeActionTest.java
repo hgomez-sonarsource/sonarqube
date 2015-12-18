@@ -27,6 +27,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
+import org.sonar.api.i18n.I18n;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.ws.WebService.Param;
 import org.sonar.api.utils.DateUtils;
@@ -57,6 +59,7 @@ import static org.sonar.db.component.ComponentTesting.newDirectory;
 import static org.sonar.db.component.ComponentTesting.newModuleDto;
 import static org.sonar.db.component.ComponentTesting.newProjectDto;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_BASE_COMPONENT_ID;
+import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_QUALIFIERS;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_STRATEGY;
 
 @Category(DbTests.class)
@@ -77,7 +80,7 @@ public class TreeActionTest {
   @Before
   public void setUp() {
     userSession.setGlobalPermissions(GlobalPermissions.SYSTEM_ADMIN);
-    ws = new WsActionTester(new TreeAction(dbClient, new ComponentFinder(dbClient), resourceTypes, userSession));
+    ws = new WsActionTester(new TreeAction(dbClient, new ComponentFinder(dbClient), resourceTypes, userSession, Mockito.mock(I18n.class)));
     resourceTypes.setChildrenQualifiers(Qualifiers.MODULE, Qualifiers.FILE, Qualifiers.DIRECTORY);
     resourceTypes.setLeavesQualifiers(Qualifiers.FILE);
   }
@@ -194,6 +197,27 @@ public class TreeActionTest {
     assertThat(response.getComponentsCount()).isEqualTo(3);
     assertThat(response.getPaging().getTotal()).isEqualTo(3);
     assertThat(response.getComponentsList()).extracting("id").containsExactly("file-uuid-1", "file-uuid-2", "file-uuid-3");
+  }
+
+  @Test
+  public void all_children_by_file_qualifier() throws IOException {
+    ComponentDto project = newProjectDto().setUuid("project-uuid");
+    SnapshotDto projectSnapshot = componentDb.insertProjectAndSnapshot(project);
+    componentDb.insertComponentAndSnapshot(newFileDto(project, 1), projectSnapshot);
+    componentDb.insertComponentAndSnapshot(newFileDto(project, 2), projectSnapshot);
+    componentDb.insertComponentAndSnapshot(newModuleDto("module-uuid-1", project), projectSnapshot);
+    db.commit();
+    componentDb.indexProjects();
+
+    InputStream responseStream = ws.newRequest()
+      .setMediaType(MediaTypes.PROTOBUF)
+      .setParam(PARAM_STRATEGY, "all")
+      .setParam(PARAM_QUALIFIERS, Qualifiers.FILE)
+      .setParam(PARAM_BASE_COMPONENT_ID, "project-uuid")
+      .execute().getInputStream();
+    WsComponents.TreeWsResponse response = WsComponents.TreeWsResponse.parseFrom(responseStream);
+
+    assertThat(response.getComponentsList()).extracting("id").containsExactly("file-uuid-1", "file-uuid-2");
   }
 
   @Test

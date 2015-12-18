@@ -24,8 +24,6 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
-import static java.util.Objects.requireNonNull;
-
 public class TreeWsRequest {
   @CheckForNull
   private String baseComponentId;
@@ -77,8 +75,8 @@ public class TreeWsRequest {
     return qualifiers;
   }
 
-  public TreeWsRequest setQualifiers(List<String> qualifiers) {
-    this.qualifiers = requireNonNull(qualifiers);
+  public TreeWsRequest setQualifiers(@Nullable List<String> qualifiers) {
+    this.qualifiers = qualifiers;
     return this;
   }
 

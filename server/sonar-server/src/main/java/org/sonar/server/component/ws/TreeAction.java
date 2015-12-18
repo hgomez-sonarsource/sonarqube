@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSortedSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.sonar.api.i18n.I18n;
 import org.sonar.api.resources.ResourceTypes;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
@@ -49,11 +50,14 @@ import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
 import static org.sonar.core.util.Uuids.UUID_EXAMPLE_02;
 import static org.sonar.server.user.AbstractUserSession.insufficientPrivilegesException;
+import static org.sonar.server.ws.WsParameterBuilder.QualifierParameterContext.newQualifierParameterContext;
+import static org.sonar.server.ws.WsParameterBuilder.createQualifiersParameter;
 import static org.sonar.server.ws.WsUtils.checkRequest;
 import static org.sonar.server.ws.WsUtils.writeProtobuf;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.ACTION_TREE;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_BASE_COMPONENT_ID;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_BASE_COMPONENT_KEY;
+import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_QUALIFIERS;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_STRATEGY;
 
 public class TreeAction implements ComponentsWsAction {
@@ -69,12 +73,14 @@ public class TreeAction implements ComponentsWsAction {
   private final ComponentFinder componentFinder;
   private final ResourceTypes resourceTypes;
   private final UserSession userSession;
+  private final I18n i18n;
 
-  public TreeAction(DbClient dbClient, ComponentFinder componentFinder, ResourceTypes resourceTypes, UserSession userSession) {
+  public TreeAction(DbClient dbClient, ComponentFinder componentFinder, ResourceTypes resourceTypes, UserSession userSession, I18n i18n) {
     this.dbClient = dbClient;
     this.componentFinder = componentFinder;
     this.resourceTypes = resourceTypes;
     this.userSession = userSession;
+    this.i18n = i18n;
   }
 
   @Override
@@ -102,6 +108,8 @@ public class TreeAction implements ComponentsWsAction {
     action.createParam(PARAM_BASE_COMPONENT_KEY)
       .setDescription("base component key.The search is based on this component. It is not included in the response.")
       .setExampleValue("org.apache.hbas:hbase");
+
+    createQualifiersParameter(action, newQualifierParameterContext(userSession, i18n, resourceTypes));
 
     action.createParam(PARAM_STRATEGY)
       .setDescription("Strategy to search for base component children:" +
@@ -253,6 +261,7 @@ public class TreeAction implements ComponentsWsAction {
       .setBaseComponentKey(request.param(PARAM_BASE_COMPONENT_KEY))
       .setStrategy(request.param(PARAM_STRATEGY))
       .setQuery(request.param(Param.TEXT_QUERY))
+      .setQualifiers(request.paramAsStrings(PARAM_QUALIFIERS))
       .setSort(request.mandatoryParam(Param.SORT))
       .setAsc(request.mandatoryParamAsBoolean(Param.ASCENDING))
       .setPage(request.mandatoryParamAsInt(Param.PAGE))

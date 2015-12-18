@@ -170,6 +170,7 @@ public class ComponentTesting {
       .setModuleUuid(module.uuid())
       .setModuleUuidPath(module.moduleUuidPath())
       .setParentProjectId(module.getId())
+      .setCreatedAt(new Date())
       .setEnabled(true);
   }
 }
