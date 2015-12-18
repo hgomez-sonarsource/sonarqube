@@ -93,7 +93,7 @@ public class TreeAction implements ComponentsWsAction {
         "<li>'Browse' and 'See Source Code' on the specified project</li>" +
         "</ul>",
         PARAM_BASE_COMPONENT_ID, PARAM_BASE_COMPONENT_KEY))
-      .setSince("5.3")
+      .setSince("5.4")
       .setResponseExample(getClass().getResource("tree-example.json"))
       .setHandler(this)
       .addSearchQuery("sonar", "component names", "component keys")
