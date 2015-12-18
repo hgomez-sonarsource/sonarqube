@@ -30,7 +30,6 @@ import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.server.ws.WebService;
 import org.sonar.api.server.ws.WebService.Param;
-import org.sonar.api.utils.DateUtils;
 import org.sonar.api.utils.Paging;
 import org.sonar.api.web.UserRole;
 import org.sonar.core.permission.GlobalPermissions;
@@ -189,8 +188,7 @@ public class TreeAction implements ComponentsWsAction {
       .setId(dto.uuid())
       .setKey(dto.key())
       .setName(dto.name())
-      .setQualifier(dto.qualifier())
-      .setCreatedAt(DateUtils.formatDateTime(dto.getCreatedAt()));
+      .setQualifier(dto.qualifier());
     if (dto.path() != null) {
       wsComponent.setPath(dto.path());
     }

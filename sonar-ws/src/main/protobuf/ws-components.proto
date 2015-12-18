@@ -46,6 +46,4 @@ message Component {
   optional string description = 5;
   optional string qualifier = 6;
   optional string path = 7;
-  // ex: 2015-08-25T16:18:48+0200
-  optional string createdAt = 8;
 }
