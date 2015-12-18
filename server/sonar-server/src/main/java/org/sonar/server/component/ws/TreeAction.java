@@ -66,7 +66,7 @@ public class TreeAction implements ComponentsWsAction {
   private static final String LEAVES_STRATEGY = "leaves";
   private static final Set<String> STRATEGIES = ImmutableSortedSet.of(ALL_STRATEGY, CHILDREN_STRATEGY, LEAVES_STRATEGY);
   private static final String NAME_SORT = "name";
-  private static final Set<String> SORTS = ImmutableSortedSet.of(NAME_SORT, "path");
+  private static final Set<String> SORTS = ImmutableSortedSet.of(NAME_SORT, "path", "qualifier");
 
   private final DbClient dbClient;
   private final ComponentFinder componentFinder;

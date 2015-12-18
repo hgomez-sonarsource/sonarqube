@@ -221,6 +221,29 @@ public class TreeActionTest {
   }
 
   @Test
+  public void all_children_sort_by_qualifier() throws IOException {
+    ComponentDto project = newProjectDto().setUuid("project-uuid");
+    SnapshotDto projectSnapshot = componentDb.insertProjectAndSnapshot(project);
+    componentDb.insertComponentAndSnapshot(newFileDto(project, 1), projectSnapshot);
+    ComponentDto module = newModuleDto("module-uuid-1", project);
+    componentDb.insertComponentAndSnapshot(module, projectSnapshot);
+    componentDb.insertComponentAndSnapshot(newDirectory(project, "path/directory/", "directory-uuid-1"), projectSnapshot);
+    db.commit();
+    componentDb.indexProjects();
+
+    InputStream responseStream = ws.newRequest()
+      .setMediaType(MediaTypes.PROTOBUF)
+      .setParam(PARAM_STRATEGY, "all")
+      .setParam(Param.SORT, "qualifier")
+      .setParam(PARAM_BASE_COMPONENT_ID, "project-uuid")
+      .execute().getInputStream();
+    WsComponents.TreeWsResponse response = WsComponents.TreeWsResponse.parseFrom(responseStream);
+
+    assertThat(response.getComponentsList()).extracting("id").containsExactly("module-uuid-1", "path/directory/", "file-uuid-1");
+
+  }
+
+  @Test
   public void empty_response_for_provisioned_project() throws IOException {
     componentDb.insertComponent(newProjectDto("project-uuid"));
     db.commit();
