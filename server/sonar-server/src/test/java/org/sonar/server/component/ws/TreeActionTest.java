@@ -93,6 +93,7 @@ public class TreeActionTest {
         .setName("file-name-" + i)
         .setPath("path/to/file-name-" + i)
         .setProjectUuid("project-id")
+        .setDescription("description " + i)
         .setCreatedAt(DateUtils.parseDateTime("2015-12-17T22:07:14+0100")),
         projectSnapshot);
     }
@@ -103,7 +104,9 @@ public class TreeActionTest {
       .setParam(PARAM_BASE_COMPONENT_ID, "project-id")
       .execute().getInput();
 
-    JsonAssert.assertJson(response).isSimilarTo(getClass().getResource("tree-example.json"));
+    JsonAssert.assertJson(response)
+      .withStrictArrayOrder()
+      .isSimilarTo(getClass().getResource("tree-example.json"));
   }
 
   @Test
