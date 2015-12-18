@@ -147,9 +147,11 @@ public class TreeAction implements ComponentsWsAction {
           break;
         case LEAVES_STRATEGY:
         case ALL_STRATEGY:
-        default:
           components = dbClient.componentDao().selectAllChildren(dbSession, query);
           total = dbClient.componentDao().countAllChildren(dbSession, query);
+          break;
+        default:
+          throw new IllegalStateException("Unknown component tree strategy");
       }
 
       return buildResponse(components,
