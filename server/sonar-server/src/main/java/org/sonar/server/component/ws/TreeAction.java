@@ -90,7 +90,7 @@ public class TreeAction implements ComponentsWsAction {
         "<ul>" +
         "<li>'Administer System'</li>" +
         "<li>'Administer' rights on the specified project</li>" +
-        "<li>'Browse' and 'See Source Code' on the specified project</li>" +
+        "<li>'Browse' on the specified project</li>" +
         "</ul>",
         PARAM_BASE_COMPONENT_ID, PARAM_BASE_COMPONENT_KEY))
       .setSince("5.4")
@@ -163,7 +163,7 @@ public class TreeAction implements ComponentsWsAction {
     String projectUuid = firstNonNull(baseComponent.projectUuid(), baseComponent.uuid());
     if (!userSession.hasGlobalPermission(GlobalPermissions.SYSTEM_ADMIN) &&
       !userSession.hasProjectPermissionByUuid(UserRole.ADMIN, projectUuid) &&
-      (!userSession.hasProjectPermissionByUuid(UserRole.USER, projectUuid) || !userSession.hasProjectPermissionByUuid(UserRole.CODEVIEWER, projectUuid))) {
+      !userSession.hasProjectPermissionByUuid(UserRole.USER, projectUuid)) {
       throw insufficientPrivilegesException();
     }
   }

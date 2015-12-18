@@ -143,8 +143,7 @@ public class TreeActionTest {
   @Test
   public void all_children() throws IOException {
     userSession.anonymous().login()
-      .addProjectUuidPermissions(UserRole.USER, "project-uuid")
-      .addProjectUuidPermissions(UserRole.CODEVIEWER, "project-uuid");
+      .addProjectUuidPermissions(UserRole.USER, "project-uuid");
 
     ComponentDto project = newProjectDto("project-uuid");
     SnapshotDto projectSnapshot = componentDb.insertProjectAndSnapshot(project);
@@ -241,7 +240,7 @@ public class TreeActionTest {
   public void fail_when_not_enough_privileges() {
     expectedException.expect(ForbiddenException.class);
     userSession.anonymous().login()
-      .addProjectUuidPermissions(UserRole.USER, "project-uuid");
+      .addProjectUuidPermissions(UserRole.CODEVIEWER, "project-uuid");
     componentDb.insertComponent(newProjectDto("project-uuid"));
     db.commit();
 
