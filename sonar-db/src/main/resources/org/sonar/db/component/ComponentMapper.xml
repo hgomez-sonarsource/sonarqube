@@ -341,7 +341,6 @@
     inner join snapshots s on p.id = s.project_id
     where
     p.enabled=${_true}
-    and p.copy_resource_id is null
     <if test="query.qualifiers!=null">
       AND p.qualifier in
       <foreach collection="query.qualifiers" item="qualifier" open="(" close=")" separator=",">

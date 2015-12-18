@@ -56,7 +56,10 @@ import org.sonarqube.ws.WsComponents;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.sonar.db.component.ComponentTesting.newDirectory;
 import static org.sonar.db.component.ComponentTesting.newModuleDto;
+import static org.sonar.db.component.ComponentTesting.newProjectCopy;
 import static org.sonar.db.component.ComponentTesting.newProjectDto;
+import static org.sonar.db.component.ComponentTesting.newSubView;
+import static org.sonar.db.component.ComponentTesting.newView;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_BASE_COMPONENT_ID;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_QUALIFIERS;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_STRATEGY;
@@ -240,7 +243,27 @@ public class TreeActionTest {
     WsComponents.TreeWsResponse response = WsComponents.TreeWsResponse.parseFrom(responseStream);
 
     assertThat(response.getComponentsList()).extracting("id").containsExactly("module-uuid-1", "path/directory/", "file-uuid-1");
+  }
 
+  @Test
+  public void direct_children_of_a_view() throws IOException {
+    ComponentDto view = newView("view-uuid");
+    SnapshotDto viewSnapshot = componentDb.insertViewAndSnapshot(view);
+    ComponentDto project = newProjectDto("project-uuid-1");
+    componentDb.insertProjectAndSnapshot(project);
+    componentDb.insertComponentAndSnapshot(newProjectCopy("project-uuid-1-copy", project, view), viewSnapshot);
+    componentDb.insertComponentAndSnapshot(newSubView(view, "sub-view-uuid", "sub-view-key"), viewSnapshot);
+    db.commit();
+    componentDb.indexProjects();
+
+    InputStream responseStream = ws.newRequest()
+      .setMediaType(MediaTypes.PROTOBUF)
+      .setParam(PARAM_STRATEGY, "children")
+      .setParam(PARAM_BASE_COMPONENT_ID, "view-uuid")
+      .execute().getInputStream();
+    WsComponents.TreeWsResponse response = WsComponents.TreeWsResponse.parseFrom(responseStream);
+
+    assertThat(response.getComponentsList()).extracting("id").containsExactly("project-uuid-1-copy", "sub-view-uuid");
   }
 
   @Test
