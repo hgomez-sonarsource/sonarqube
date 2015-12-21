@@ -304,7 +304,7 @@
     <include refid="componentColumns"/>
     <include refid="sqlSelectByTreeQuery"/>
     and s.parent_snapshot_id = #{query.baseSnapshot.id}
-    order by LOWER(p.${query.sortField}) ${query.direction}, p.${query.sortField} ${query.direction}
+    order by ${query.sqlSort}
   </select>
 
   <select id="countDirectChildren" resultType="int">
@@ -317,7 +317,7 @@
     select
     <include refid="componentColumns"/>
     <include refid="sqlSelectAllChildren" />
-    order by LOWER(p.${query.sortField}) ${query.direction}, p.${query.sortField} ${query.direction}
+    order by ${query.sqlSort}
   </select>
 
   <select id="countAllChildren" resultType="int">

@@ -36,7 +36,7 @@ public class TreeWsRequest {
   @CheckForNull
   private String query;
   @CheckForNull
-  private String sort;
+  private List<String> sort;
   @CheckForNull
   private Boolean asc;
   @CheckForNull
@@ -89,11 +89,11 @@ public class TreeWsRequest {
     return this;
   }
 
-  public String getSort() {
+  public List<String> getSort() {
     return sort;
   }
 
-  public TreeWsRequest setSort(@Nullable String sort) {
+  public TreeWsRequest setSort(@Nullable List<String> sort) {
     this.sort = sort;
     return this;
   }

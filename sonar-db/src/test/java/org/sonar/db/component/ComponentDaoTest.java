@@ -811,7 +811,7 @@ public class ComponentDaoTest {
     componentDb.indexProjects();
 
     ComponentTreeQuery query = newTreeQuery(projectSnapshot)
-      .setSortField("path")
+      .setSortFields(singletonList("path"))
       .setAsc(true)
       .build();
 
@@ -874,7 +874,7 @@ public class ComponentDaoTest {
       .setPage(2)
       .setPageSize(3)
       .setNameOrKeyQuery("file-name")
-      .setSortField("name")
+      .setSortFields(singletonList("name"))
       .setAsc(false)
       .build();
 
@@ -890,7 +890,7 @@ public class ComponentDaoTest {
       .setPage(1)
       .setPageSize(500)
       .setBaseSnapshot(baseSnapshot)
-      .setSortField("name")
+      .setSortFields(singletonList("name"))
       .setAsc(true)
       .setQualifiers(newArrayList(Qualifiers.FILE, Qualifiers.MODULE, Qualifiers.DIRECTORY, Qualifiers.PROJECT));
   }

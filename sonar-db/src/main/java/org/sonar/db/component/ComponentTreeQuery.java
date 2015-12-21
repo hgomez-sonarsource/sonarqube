@@ -20,11 +20,16 @@
 
 package org.sonar.db.component;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import java.util.Collection;
+import java.util.List;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.sonar.db.WildcardPosition;
 
+import static com.google.common.collect.FluentIterable.from;
 import static java.util.Objects.requireNonNull;
 import static org.sonar.db.DatabaseUtils.buildLikeValue;
 import static org.sonar.db.WildcardPosition.AFTER;
@@ -40,7 +45,7 @@ public class ComponentTreeQuery {
   private final Integer pageSize;
   private final SnapshotDto baseSnapshot;
   private final String baseSnapshotPath;
-  private final String sortField;
+  private final String sqlSort;
   private final String direction;
 
   private ComponentTreeQuery(Builder builder) {
@@ -50,8 +55,8 @@ public class ComponentTreeQuery {
     this.pageSize = builder.pageSize;
     this.baseSnapshot = builder.baseSnapshot;
     this.baseSnapshotPath = buildLikeValue(baseSnapshot.getPath() + baseSnapshot.getId() + ".", WildcardPosition.AFTER);
-    this.sortField = builder.sortField;
     this.direction = builder.asc ? "ASC" : "DESC";
+    this.sqlSort = sortFieldsToSqlSort(builder.sortFields, direction);
   }
 
   public Collection<String> getQualifiers() {
@@ -88,8 +93,8 @@ public class ComponentTreeQuery {
     return baseSnapshotPath;
   }
 
-  public String getSortField() {
-    return sortField;
+  public String getSqlSort() {
+    return sqlSort;
   }
 
   public String getDirection() {
@@ -98,6 +103,13 @@ public class ComponentTreeQuery {
 
   public static Builder builder() {
     return new Builder();
+  }
+
+  private String sortFieldsToSqlSort(List<String> sortFields, String direction) {
+    List<String> sqlSortFields = from(sortFields)
+      .transform(new SortFieldToSqlSortFieldFunction(direction)).toList();
+
+    return Joiner.on(", ").join(sqlSortFields);
   }
 
   public static class Builder {
@@ -110,7 +122,7 @@ public class ComponentTreeQuery {
     @CheckForNull
     private Integer pageSize;
     private SnapshotDto baseSnapshot;
-    private String sortField;
+    private List<String> sortFields;
     private boolean asc = true;
 
     private Builder() {
@@ -147,14 +159,30 @@ public class ComponentTreeQuery {
       return this;
     }
 
-    public Builder setSortField(String sort) {
-      this.sortField = sort;
+    public Builder setSortFields(List<String> sorts) {
+      this.sortFields = requireNonNull(sorts);
       return this;
     }
 
     public Builder setAsc(boolean asc) {
       this.asc = asc;
       return this;
+    }
+  }
+
+  private static class SortFieldToSqlSortFieldFunction implements Function<String, String> {
+    private static final String PATTERN = "LOWER(p.%1$s) %2$s, p.%1$s %2$s";
+
+    private final String direction;
+
+    private SortFieldToSqlSortFieldFunction(String direction) {
+      this.direction = direction;
+    }
+
+    @Nonnull
+    @Override
+    public String apply(@Nonnull String input) {
+      return String.format(PATTERN, input, direction);
     }
   }
 }

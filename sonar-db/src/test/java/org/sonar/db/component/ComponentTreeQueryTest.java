@@ -20,12 +20,13 @@
 
 package org.sonar.db.component;
 
+import java.util.Collections;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.sonar.api.resources.Qualifiers;
 
-import static java.util.Collections.singleton;
+import static com.google.common.collect.Lists.newArrayList;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ComponentTreeQueryTest {
 
@@ -33,11 +34,30 @@ public class ComponentTreeQueryTest {
   public ExpectedException expectedException = ExpectedException.none();
 
   @Test
+  public void convert_sorts_in_sql_representation() {
+    ComponentTreeQuery result = ComponentTreeQuery.builder()
+      .setBaseSnapshot(new SnapshotDto())
+      .setSortFields(newArrayList("name", "path", "qualifier"))
+      .build();
+
+    assertThat(result.getSqlSort()).isEqualTo("LOWER(p.name) ASC, p.name ASC, LOWER(p.path) ASC, p.path ASC, LOWER(p.qualifier) ASC, p.qualifier ASC");
+  }
+
+  @Test
   public void fail_if_no_base_snapshot() {
     expectedException.expect(NullPointerException.class);
 
     ComponentTreeQuery.builder()
-      .setQualifiers(singleton(Qualifiers.FILE))
+      .setSortFields(Collections.<String>emptyList())
+      .build();
+  }
+
+  @Test
+  public void fail_if_no_sort() {
+    expectedException.expect(NullPointerException.class);
+
+    ComponentTreeQuery.builder()
+      .setBaseSnapshot(new SnapshotDto())
       .build();
   }
 }

@@ -97,7 +97,7 @@ public class TreeAction implements ComponentsWsAction {
       .setResponseExample(getClass().getResource("tree-example.json"))
       .setHandler(this)
       .addSearchQuery("sonar", "component names", "component keys")
-      .addSortParams(newHashSet(SORTS), NAME_SORT, true)
+      .addMultiSortsParams(newHashSet(SORTS), NAME_SORT, true)
       .addPagingParams(100, MAX_SIZE);
 
     action.createParam(PARAM_BASE_COMPONENT_ID)
@@ -221,7 +221,7 @@ public class TreeAction implements ComponentsWsAction {
       .setBaseSnapshot(baseSnapshot)
       .setPage(request.getPage())
       .setPageSize(request.getPageSize())
-      .setSortField(request.getSort())
+      .setSortFields(request.getSort())
       .setAsc(request.getAsc());
     if (request.getQuery() != null) {
       query.setNameOrKeyQuery(request.getQuery());
@@ -262,7 +262,7 @@ public class TreeAction implements ComponentsWsAction {
       .setStrategy(request.param(PARAM_STRATEGY))
       .setQuery(request.param(Param.TEXT_QUERY))
       .setQualifiers(request.paramAsStrings(PARAM_QUALIFIERS))
-      .setSort(request.mandatoryParam(Param.SORT))
+      .setSort(request.mandatoryParamAsStrings(Param.SORT))
       .setAsc(request.mandatoryParamAsBoolean(Param.ASCENDING))
       .setPage(request.mandatoryParamAsInt(Param.PAGE))
       .setPageSize(request.mandatoryParamAsInt(Param.PAGE_SIZE));

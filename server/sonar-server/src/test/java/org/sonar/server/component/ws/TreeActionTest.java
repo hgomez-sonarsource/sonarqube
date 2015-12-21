@@ -227,6 +227,7 @@ public class TreeActionTest {
   public void all_children_sort_by_qualifier() throws IOException {
     ComponentDto project = newProjectDto().setUuid("project-uuid");
     SnapshotDto projectSnapshot = componentDb.insertProjectAndSnapshot(project);
+    componentDb.insertComponentAndSnapshot(newFileDto(project, 2), projectSnapshot);
     componentDb.insertComponentAndSnapshot(newFileDto(project, 1), projectSnapshot);
     ComponentDto module = newModuleDto("module-uuid-1", project);
     componentDb.insertComponentAndSnapshot(module, projectSnapshot);
@@ -237,12 +238,12 @@ public class TreeActionTest {
     InputStream responseStream = ws.newRequest()
       .setMediaType(MediaTypes.PROTOBUF)
       .setParam(PARAM_STRATEGY, "all")
-      .setParam(Param.SORT, "qualifier")
+      .setParam(Param.SORT, "qualifier, name")
       .setParam(PARAM_BASE_COMPONENT_ID, "project-uuid")
       .execute().getInputStream();
     WsComponents.TreeWsResponse response = WsComponents.TreeWsResponse.parseFrom(responseStream);
 
-    assertThat(response.getComponentsList()).extracting("id").containsExactly("module-uuid-1", "path/directory/", "file-uuid-1");
+    assertThat(response.getComponentsList()).extracting("id").containsExactly("module-uuid-1", "path/directory/", "file-uuid-1", "file-uuid-2");
   }
 
   @Test
