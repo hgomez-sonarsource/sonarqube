@@ -1689,32 +1689,32 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.jfrog.buildinfo</groupId>
-            <artifactId>artifactory-maven-plugin</artifactId>
-            <version>2.4.0</version>
-            <inherited>false</inherited>
-            <executions>
-                <execution>
-                    <id>build-info</id>
-                    <goals>
-                        <goal>publish</goal>
-                    </goals>
-                    <configuration>
-                        <deployProperties>
-                            <gradle>awesome</gradle>
-                            <review.team>qa</review.team>
-                        </deployProperties>
-                        <publisher>
-                            <contextUrl>${artifactory.url}</contextUrl>
-                            <username>${artifactory.user}</username>
-                            <password>${artifactory.password}</password>
-                            <repoKey>${artifactory.repo}</repoKey>
-                            <snapshotRepoKey>${artifactory.snapshot.repo}</snapshotRepoKey>
-                        </publisher>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+            <groupId>org.jfrog.buildinfo</groupId>
+            <artifactId>artifactory-maven-plugin</artifactId>
+            <version>2.4.0</version>
+            <inherited>false</inherited>
+            <executions>
+              <execution>
+                <id>build-info</id>
+                <goals>
+                  <goal>publish</goal>
+                </goals>
+                <configuration>
+                <deployProperties>
+                  <prop1>property #1</prop1>
+                  <prop2>property #1</prop2>
+                </deployProperties>
+                <publisher>
+                  <contextUrl>${artifactory.url}</contextUrl>
+                  <username>${artifactory.user}</username>
+                  <password>${artifactory.password}</password>
+                  <repoKey>${artifactory.repo}</repoKey>
+                  <snapshotRepoKey>${artifactory.snapshot.repo}</snapshotRepoKey>
+                 </publisher>
+               </configuration>
+             </execution>
+           </executions>
+         </plugin>
        </plugins>
       </build>
     </profile>
