@@ -1702,11 +1702,13 @@
                 <configuration>
                   <artifactory>
                     <envVarsExcludePatterns>*password*,*PASSWORD*,*secret*,*MAVEN_CMD_LINE_ARGS*,sun.java.command</envVarsExcludePatterns>
-                    <envVarsIncludePatterns>*</envVarsIncludePatterns>
                     <includeEnvVars>true</includeEnvVars>
+                    <timeoutSec>60</timeoutSec>
                  </artifactory>
                  <deployProperties>
                    <vcs.revision>{{GIT_COMMIT}}</vcs.revision>
+                   <build.name>{{JOB_NAME}}</build.name>
+                   <build.number>{{TRAVIS_BUILD_NUMBER|BUILD_ID}}</build.number>
                  </deployProperties>
                  <licenses>
                    <autoDiscover>true</autoDiscover>
@@ -1721,10 +1723,13 @@
                    <password>${artifactory.password}</password>
                    <repoKey>${artifactory.repo}</repoKey>
                    <snapshotRepoKey>${artifactory.snapshot.repo}</snapshotRepoKey>
+                   <publishBuildInfo>true</publishBuildInfo>
+                   <publishArtifacts>true</publishArtifacts>
                  </publisher>
                  <buildinfo>
-                   <buildNumber>{{DRONE_BUILD_NUMBER|TRAVIS_BUILD_NUMBER|CI_BUILD_NUMBER|BUILD_NUMBER|BUILD_ID}}</buildNumber>
-                   <buildUrl>{{DRONE_BUILD_URL|CI_BUILD_URL|BUILD_URL}}</buildUrl>
+                   <buildName>{{JOB_NAME}}</buildName> 
+                   <buildNumber>{{TRAVIS_BUILD_NUMBER|BUILD_ID}}</buildNumber>
+                   <buildUrl>{{CI_BUILD_URL|BUILD_URL}}</buildUrl>
                    <vcsRevision>{{GIT_COMMIT}}</vcsRevision>
                  </buildinfo>
                </configuration>
