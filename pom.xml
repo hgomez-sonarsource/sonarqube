@@ -1706,9 +1706,15 @@
                     <includeEnvVars>true</includeEnvVars>
                  </artifactory>
                  <deployProperties>
-                   <prop1>property #1</prop1>
-                   <prop2>property #1</prop2>
+                   <vcs.revision>{{GIT_COMMIT}}</vcs.revision>
                  </deployProperties>
+                 <licenses>
+                   <autoDiscover>true</autoDiscover>
+                   <includePublishedArtifacts>false</includePublishedArtifacts>
+                   <runChecks>true</runChecks>
+                   <scopes>project,provided</scopes>
+                   <violationRecipients>henri.gomez@sonarsource.com</violationRecipients>
+                 </licenses>                 
                  <publisher>
                    <contextUrl>${artifactory.url}</contextUrl>
                    <username>${artifactory.user}</username>
